@@ -21,7 +21,15 @@ def get_tss_msg(rendered = True):
     }
     connection = mysql_connector.connect(**config)
     cursor = connection.cursor()
-    cursor.execute('SELECT date, first_name, msg FROM tss_messages')
+    cursor.execute("""SELECT EXTRACT(YEAR FROM date), 
+                             EXTRACT(MONTH FROM date),
+                             EXTRACT(DAY FROM date),
+                             EXTRACT(HOUR FROM date),
+                             EXTRACT(MINUTE FROM date),
+                             EXTRACT(SECOND FROM date),
+                             first_name,
+                             msg
+                             FROM tss_messages""")
     messages = cursor.fetchall()
     rendered_messages = template.render(messages=messages)
 

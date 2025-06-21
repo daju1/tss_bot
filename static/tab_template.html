@@ -15,15 +15,25 @@
 <table>
   <thead>
     <tr>
-        <th>date</th>
+        <th>year</th>
+        <th>month</th>
+        <th>day</th>
+        <th>hour</th>
+        <th>minute</th>
+        <th>second</th>
         <th>name</th>
         <th>message</th>
     </tr>
     </thead>
     <tbody>
-     {% for date, first_name, msg in messages %}
+     {% for year, month, day, hour, minute, second, first_name, msg in messages %}
             <tr>
-                <td>{{date}}</td>
+                <td>{{year}}</td>
+                <td>{{month}}</td>
+                <td>{{day}}</td>
+                <td>{{hour}}</td>
+                <td>{{minute}}</td>
+                <td>{{second}}</td>
                 <td>{{first_name}}</td>
                 <td>{{msg}}</td>
             </tr>
