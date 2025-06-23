@@ -1,0 +1,46 @@
+version: "3.3"
+
+services:
+  python-telegram-bot:
+    build:
+      context: ./python-telegram-bot
+    container_name: python_telegram_bot
+    ports:
+      - "8083:8081"
+      - "80:80"
+      - "88:88"
+      - "443:443"
+      - "8443:8443"
+    expose:
+      - 8081
+
+  flaskserver:
+    build:
+      context: ./flaskserver
+    container_name: flask_server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db/myapp
+      - FLASK_APP=/app/app.py
+      #- FLASK_ENV=development
+      #- FLASK_DEBUG=1
+
+  db:
+    build:
+      context: ./mysql
+    ports:
+      - "32000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      #MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      #MYSQL_DATABASE: ${MYSQL_DATABASE}
+      #MYSQL_USER: ${MYSQL_USER}
+      #MYSQL_PASSWORD: ${MYSQL_PASSWORD}      
+    volumes:
+      - mysql_data:/var/lib/mysql # Persist data using a named volume
+
+volumes:
+  mysql_data: # Define the named volume

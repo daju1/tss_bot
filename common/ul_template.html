@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div class = item>
+            <ul>
+                {% for date, first_name, msg in messages %}
+                    <li>{{date}}, {{first_name}}, {{msg}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </body>
+</html>
