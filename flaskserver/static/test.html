@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test</title>
+  <script type="text/javascript" src="/static/script.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
+  <meta charset="UTF-8"> 
+</head>
+<body>
+
+
+<form action="../actualreport" method="post">
+    <p><input type="text" name="datestart" value = "1"></p>
+    <p><input type="text" name="dateend" value = "2">
+       <input type="submit" value="get Report"></p>
+</form>
+
+<p>show report</p>
+
+
+<p><a href = "../actualreport?datestart=1&dateend=2">actualreport</a></p>
+<p><a href = "../reinit?">reinit</a></p>
+
+</body>
+</html>
