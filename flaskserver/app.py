@@ -87,7 +87,7 @@ class User:
 
 print("app starts")
 
-from .mydblib import common
+from mydblib import common
 
 @app.route('/')
 # @auth.login_required
