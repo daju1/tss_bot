@@ -82,12 +82,36 @@ def get_tss_msg(rendered = True):
 
 def get_tss_stat(rendered = True):
 
-    sql = """SELECT COUNT(*) AS n_KM,
-                    DATE(date),
+    sql = """SELECT SUM(n_KM), SUM(n_TY2), SUM(n_TY),
+                    group_date,
+                    first_name
+            FROM (
+            SELECT COUNT(*) AS n_KM, 0 AS n_TY2, 0 AS n_TY,
+                    DATE(date) as group_date,
                     first_name
             FROM tss_messages
             WHERE msg LIKE '%КМ %'
             GROUP BY first_name, username, DATE(date)
+
+            UNION ALL
+
+            SELECT 0 AS n_KM, COUNT(*) AS n_TY2, 0  AS n_TY,
+                    DATE(date) as group_date,
+                    first_name
+            FROM tss_messages
+            WHERE msg LIKE '%ТУ2 %'
+            GROUP BY first_name, username, DATE(date)
+
+            UNION ALL
+
+            SELECT 0 AS n_KM, 0 AS n_TY2, COUNT(*) AS n_TY,
+                    DATE(date) as group_date,
+                    first_name
+            FROM tss_messages
+            WHERE msg LIKE '%ТУ %'
+            GROUP BY first_name, username, DATE(date)
+            ) AS group_count
+            GROUP BY first_name, group_date
         """
 
     return get_tss_message(sql=sql, template = template_stat, rendered=rendered)
