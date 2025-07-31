@@ -9,9 +9,11 @@ env = Environment(
     loader=FileSystemLoader('/app/common'),
     autoescape=select_autoescape(['html'])
 )
-template = env.get_template('tab_template.html')
+template_tab = env.get_template('tab_template.html')
+template_stat = env.get_template('stat_template.html')
 
-def get_tss_msg(rendered = True):
+
+def get_tss_message(sql, template, rendered):
     config = {
         'user': 'root',
         'password': 'root',
@@ -21,27 +23,6 @@ def get_tss_msg(rendered = True):
     }
     connection = mysql_connector.connect(**config)
     cursor = connection.cursor()
-    sql = """SELECT EXTRACT(YEAR FROM date), 
-                             EXTRACT(MONTH FROM date),
-                             EXTRACT(DAY FROM date),
-                             EXTRACT(HOUR FROM date),
-                             EXTRACT(MINUTE FROM date),
-                             EXTRACT(SECOND FROM date),
-                             first_name,
-                             msg
-                             FROM tss_messages"""
-
-    sql = """SELECT date,
-                    first_name,
-                    msg
-                    FROM tss_messages"""
-
-    sql = """SELECT
-                    DATE(date),
-                    TIME(date),
-                    first_name,
-                    msg
-                    FROM tss_messages"""
 
     cursor.execute(sql)
     messages = cursor.fetchall()
@@ -71,4 +52,42 @@ def get_tss_msg(rendered = True):
     print("result = ", result, flush=True)
     return result
 
+def get_tss_msg(rendered = True):
 
+    sql = """SELECT EXTRACT(YEAR FROM date),
+                             EXTRACT(MONTH FROM date),
+                             EXTRACT(DAY FROM date),
+                             EXTRACT(HOUR FROM date),
+                             EXTRACT(MINUTE FROM date),
+                             EXTRACT(SECOND FROM date),
+                             first_name,
+                             msg
+                             FROM tss_messages"""
+
+    sql = """SELECT date,
+                    first_name,
+                    msg
+                    FROM tss_messages"""
+
+    sql = """SELECT
+                    DATE(date),
+                    TIME(date),
+                    first_name,
+                    msg
+            FROM tss_messages"""
+
+
+    return get_tss_message(sql=sql, template = template_tab, rendered=rendered)
+
+
+def get_tss_stat(rendered = True):
+
+    sql = """SELECT COUNT(*) AS n_KM,
+                    DATE(date),
+                    first_name
+            FROM tss_messages
+            WHERE msg LIKE '%КМ %'
+            GROUP BY first_name, username, DATE(date)
+        """
+
+    return get_tss_message(sql=sql, template = template_stat, rendered=rendered)

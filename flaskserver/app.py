@@ -94,6 +94,11 @@ from mydblib import common
 def index():
     return common.get_tss_msg()
 
+@app.route('/stat/')
+# @auth.login_required
+def stat():
+    return common.get_tss_stat()
+
 #@app.route('/')
 #@auth.login_required
 #def index():

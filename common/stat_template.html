@@ -1,0 +1,34 @@
+<html>
+<head>
+ <title></title>
+</head>
+<body>
+<style>
+
+ td {
+        width: 150px;
+        text-align: center;
+        border: 1px solid black;
+        padding: 5px;
+      }
+</style>
+<table>
+  <thead>
+    <tr>
+        <th>count</th>
+        <th>date</th>
+        <th>name</th>
+    </tr>
+    </thead>
+    <tbody>
+     {% for count, date, first_name in messages %}
+            <tr>
+                <td>{{count}}</td>
+                <td>{{date}}</td>
+                <td>{{first_name}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>
