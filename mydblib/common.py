@@ -88,7 +88,7 @@ def get_tss_stat(rendered = True):
             FROM (
             SELECT COUNT(*) AS n_KM, 0 AS n_TY2, 0 AS n_TY,
                     DATE(date) as group_date,
-                    first_name
+                    first_name, username
             FROM tss_messages
             WHERE msg LIKE '%КМ %'
             GROUP BY first_name, username, DATE(date)
@@ -97,7 +97,7 @@ def get_tss_stat(rendered = True):
 
             SELECT 0 AS n_KM, COUNT(*) AS n_TY2, 0  AS n_TY,
                     DATE(date) as group_date,
-                    first_name
+                    first_name, username
             FROM tss_messages
             WHERE msg LIKE '%ТУ2 %'
             GROUP BY first_name, username, DATE(date)
@@ -106,12 +106,12 @@ def get_tss_stat(rendered = True):
 
             SELECT 0 AS n_KM, 0 AS n_TY2, COUNT(*) AS n_TY,
                     DATE(date) as group_date,
-                    first_name
+                    first_name, username
             FROM tss_messages
-            WHERE msg LIKE '%ТУ %'
+            WHERE msg LIKE '%ТУ%' and msg not LIKE '%ТУ2 %'
             GROUP BY first_name, username, DATE(date)
             ) AS group_count
-            GROUP BY first_name, group_date
+            GROUP BY first_name, username, group_date
         """
 
     return get_tss_message(sql=sql, template = template_stat, rendered=rendered)
