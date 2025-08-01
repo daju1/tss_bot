@@ -18,16 +18,18 @@
         <th>count_KM</th>
         <th>count_TY2</th>
         <th>count_TY</th>
+        <th>count_M</th>
         <th>date</th>
         <th>name</th>
     </tr>
     </thead>
     <tbody>
-     {% for count_KM, count_TY2, count_TY, date, first_name in messages %}
+     {% for count_KM, count_TY2, count_TY, count_M, date, first_name in messages %}
             <tr>
                 <td>{{count_KM}}</td>
                 <td>{{count_TY2}}</td>
                 <td>{{count_TY}}</td>
+                <td>{{count_M}}</td>
                 <td>{{date}}</td>
                 <td>{{first_name}}</td>
             </tr>
